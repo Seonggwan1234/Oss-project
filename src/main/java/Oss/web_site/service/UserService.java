@@ -10,21 +10,25 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder encoder;
 
     public boolean register(String username, String password) {
-        if (userRepository.existsByUsername(username)) return false;
-
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(encoder.encode(password));
-        userRepository.save(user);
-        return true;
-    }
-
-    public boolean login(String username, String password) {
-        return userRepository.findByUsername(username)
-                .map(user -> encoder.matches(password, user.getPassword()))
-                .orElse(false);
+        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+            return false;
+        }
+        if (userRepository.existsByUsername(username)) {
+            return false;
+        }
+        try {
+            User user = new User();
+            user.setUsername(username);
+            user.setPassword(encoder.encode(password));
+            userRepository.save(user);
+            return true;
+        } catch (Exception e) {
+            // 예외 로깅 추가
+            System.err.println("회원가입 실패: " + e.getMessage());
+            return false;
+        }
     }
 }
