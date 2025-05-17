@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Oss 게시판</title>
+    <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+<header>
+    <img src="/git_image.png" alt="Git Logo" class="header-logo" />
+    <div class="login-box">
+        <input type="text" placeholder="아이디" id="login-id" />
+        <input type="password" placeholder="비밀번호" id="login-pw" />
+        <button id="login-btn">로그인</button>
+        <button id="register">회원가입</button>
+    </div>
+</header>
+
+<div class="container">
+    <nav class="sidebar">
+        <ul id="category-list">
+            <li data-category="all" class="active">전체</li>
+            <li data-category="Oss">Oss</li>
+            <li data-category="Sports">스포츠</li>
+            <li data-category="Tech">기술</li>
+            <li data-category="Git">깃</li>
+        </ul>
+    </nav>
+
+
+    <main class="content">
+        <h2 id="category-title">전체 게시판</h2>
+        <ul id="post-list">
+            <!-- 게시글 목록은 JS가 넣음 -->
+
+        </ul>
+        <div id="post-content" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc;">
+            <!-- 게시글 본문이 여기에 표시됨 -->
+
+        </div>
+
+        <div class="post-form" id="post-form">
+            <h3>게시글 작성</h3>
+            <input type="text" id="post-title" placeholder="제목" style="width: 100%; margin-bottom: 8px; padding: 6px;" />
+            <textarea id="post-content-input" placeholder="내용" rows="5" style="width: 100%; margin-bottom: 8px; padding: 6px;"></textarea>
+            <button id="post-submit">작성 완료</button>
+        </div>
+
+    </main>
+
+        <div id="register-modal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span id="close-register" style="cursor:pointer; float:right;">&times;</span>
+                <h2>회원가입</h2>
+                <input type="text" id="register-id" placeholder="아이디" /><br />
+                <input type="password" id="register-pw" placeholder="비밀번호" /><br />
+                <button id="register-submit">가입하기</button>
+            </div>
+        </div>
+</div>
+
+<script src="/script.js"></script>
+    <script src="/auth.js"></script>
+
+</body>
+</html>
