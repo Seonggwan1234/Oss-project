@@ -80,3 +80,39 @@ registerSubmit.addEventListener("click", async () => {
         console.error("회원가입 오류:", error);
     }
 });
+function updateAuthUI() {
+    const user = localStorage.getItem("user");
+
+    const loginBox = document.getElementById("login-box");
+    const userBox = document.getElementById("user-box");
+    const userDisplay = document.getElementById("user-id-display");
+
+    if (user) {
+        loginBox.style.display = "none";
+        userBox.style.display = "block";
+        userDisplay.textContent = user;
+    } else {
+        loginBox.style.display = "flex";
+        userBox.style.display = "none";
+        userDisplay.textContent = "";
+    }
+}
+
+// 로그인 성공 시 호출 예시
+function isLoggedIn(userId) {
+    localStorage.setItem("user", userId);
+    updateAuthUI();
+}
+
+// 로그아웃 이벤트
+document.getElementById("logout-btn").addEventListener("click", () => {
+    localStorage.removeItem("user");
+    updateAuthUI();
+    alert("로그아웃 되었습니다.");
+});
+//페이지 로딩시 로그인 상태반영
+window.addEventListener("DOMContentLoaded", () => {
+    updateAuthUI();
+    renderPosts("all");
+});
+
