@@ -47,12 +47,19 @@ loginBtn.addEventListener("click", async () => {
             updateAuthUI();  // 로그인 UI 반영
 
             document.getElementById("post-form").style.display = "block";
+
+            document.getElementById("login-id").value = "";
+            document.getElementById("login-pw").value = "";
+
         } else {
             alert(data.error || "로그인 실패");
         }
     } catch (error) {
         alert("서버 오류로 로그인에 실패했습니다. 다시 시도해주세요.");
         console.error("로그인 오류:", error);
+
+        document.getElementById("login-id").value = "";
+        document.getElementById("login-pw").value = "";
     }
 });
 
@@ -77,9 +84,17 @@ registerSubmit.addEventListener("click", async () => {
 
         alert("회원가입 성공! 로그인 해주세요.");
         registerModal.style.display = "none";
+
+        document.getElementById("register-id").value = "";
+        document.getElementById("register-pw").value = "";
+
     } catch (error) {
         alert("회원가입에 실패했습니다. 다시 시도해주세요.");
         console.error("회원가입 오류:", error);
+
+        document.getElementById("register-id").value = "";
+        document.getElementById("register-pw").value = "";
+
     }
 });
 

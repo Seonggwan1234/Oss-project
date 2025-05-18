@@ -68,6 +68,9 @@ writePostBtn.addEventListener("click", () => {
         return;
     }
 
+    document.getElementById("post-title").value = "";
+    document.getElementById("post-content-input").value = "";
+
     postContent.innerHTML = ""; // 기존 본문 숨기기
     postForm.style.display = "block"; // 작성 폼 보이기
 });
@@ -114,6 +117,7 @@ document.getElementById("post-submit").addEventListener("click", async () => {
         console.error(error);
     }
 });
+
 
 // 초기 렌더링
 renderPosts("all");
