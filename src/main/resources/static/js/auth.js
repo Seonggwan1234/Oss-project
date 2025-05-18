@@ -1,5 +1,3 @@
-// auth.js
-
 const loginBtn = document.getElementById("login-btn");
 const registerBtn = document.getElementById("register");
 const registerModal = document.getElementById("register-modal");
@@ -23,7 +21,6 @@ window.addEventListener("click", (e) => {
     }
 });
 
-window.isLoggedIn = false;
 // 로그인 처리
 loginBtn.addEventListener("click", async () => {
     const id = document.getElementById("login-id").value.trim();
@@ -40,21 +37,26 @@ loginBtn.addEventListener("click", async () => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username: id, password: pw }),
         });
-        if (!response.ok) throw new Error("로그인 실패");
 
         const data = await response.json();
-        alert(`로그인 성공! 환영합니다, ${data.username}님.`);
-        isLoggedIn = true;
 
-        document.getElementById("post-form").style.display = "block";
-        // TODO: 로그인 성공 후 처리 (토큰 저장, 페이지 이동 등)
+        if (response.status === 200) {
+            alert(`로그인 성공! 환영합니다, ${data.username}님.`);
+
+            localStorage.setItem("user", data.username); // 사용자 정보 저장
+            updateAuthUI();  // 로그인 UI 반영
+
+            document.getElementById("post-form").style.display = "block";
+        } else {
+            alert(data.error || "로그인 실패");
+        }
     } catch (error) {
-        alert("로그인에 실패했습니다. 다시 시도해주세요.");
+        alert("서버 오류로 로그인에 실패했습니다. 다시 시도해주세요.");
         console.error("로그인 오류:", error);
     }
 });
 
-// 회원가입 처리 (모달 안 '가입하기' 버튼)
+// 회원가입 처리
 registerSubmit.addEventListener("click", async () => {
     const id = document.getElementById("register-id").value.trim();
     const pw = document.getElementById("register-pw").value.trim();
@@ -70,16 +72,18 @@ registerSubmit.addEventListener("click", async () => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username: id, password: pw }),
         });
+
         if (!response.ok) throw new Error("회원가입 실패");
 
         alert("회원가입 성공! 로그인 해주세요.");
-        registerModal.style.display = "none"; // 모달 닫기
-        // TODO: 회원가입 성공 후 처리 (입력창 초기화 등)
+        registerModal.style.display = "none";
     } catch (error) {
         alert("회원가입에 실패했습니다. 다시 시도해주세요.");
         console.error("회원가입 오류:", error);
     }
 });
+
+// 로그인/로그아웃 UI 갱신 함수
 function updateAuthUI() {
     const user = localStorage.getItem("user");
 
@@ -91,28 +95,26 @@ function updateAuthUI() {
         loginBox.style.display = "none";
         userBox.style.display = "block";
         userDisplay.textContent = user;
+        document.getElementById("post-form").style.display = "block";
     } else {
         loginBox.style.display = "flex";
         userBox.style.display = "none";
         userDisplay.textContent = "";
+        document.getElementById("post-form").style.display = "none";
     }
 }
 
-// 로그인 성공 시 호출 예시
-function isLoggedIn(userId) {
-    localStorage.setItem("user", userId);
-    updateAuthUI();
-}
-
-// 로그아웃 이벤트
+// 로그아웃
 document.getElementById("logout-btn").addEventListener("click", () => {
     localStorage.removeItem("user");
     updateAuthUI();
     alert("로그아웃 되었습니다.");
 });
-//페이지 로딩시 로그인 상태반영
+
+// 페이지 로딩 시 로그인 상태 반영
 window.addEventListener("DOMContentLoaded", () => {
     updateAuthUI();
-    renderPosts("all");
+    if (typeof renderPosts === "function") {
+        renderPosts("all");
+    }
 });
-
