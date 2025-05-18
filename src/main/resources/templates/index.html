@@ -8,15 +8,15 @@
 </head>
 <body>
 <header>
-
     <img src="images/git_image%20.png" alt="Git Logo" class="header-logo" />
 
-    <div class="login-box">
+    <div class="login-box" id="login-box">
         <input type="text" placeholder="아이디" id="login-id" />
         <input type="password" placeholder="비밀번호" id="login-pw" />
         <button id="login-btn">로그인</button>
         <button id="register">회원가입</button>
     </div>
+
     <div class="user-box" id="user-box" style="display: none;">
         <span id="user-id-display"></span> 님 환영합니다!
         <button id="logout-btn">로그아웃</button>
@@ -34,40 +34,36 @@
         </ul>
     </nav>
 
-
     <main class="content">
         <h2 id="category-title">전체 게시판</h2>
         <ul id="post-list">
             <!-- 게시글 목록은 JS가 넣음 -->
-
         </ul>
-        <div id="post-content" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc;">
-            <!-- 게시글 본문이 여기에 표시됨 -->
 
+        <div id="post-content" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc;">
+            <!-- 게시글 본문 표시 -->
         </div>
 
-        <div class="post-form" id="post-form">
+        <div class="post-form" id="post-form" style="display: none;">
             <h3>게시글 작성</h3>
             <input type="text" id="post-title" placeholder="제목" style="width: 100%; margin-bottom: 8px; padding: 6px;" />
             <textarea id="post-content-input" placeholder="내용" rows="5" style="width: 100%; margin-bottom: 8px; padding: 6px;"></textarea>
             <button id="post-submit">작성 완료</button>
         </div>
-
     </main>
 
-        <div id="register-modal" class="modal" style="display:none;">
-            <div class="modal-content">
-                <span id="close-register" style="cursor:pointer; float:right;">&times;</span>
-                <h2>회원가입</h2>
-                <input type="text" id="register-id" placeholder="아이디" /><br />
-                <input type="password" id="register-pw" placeholder="비밀번호" /><br />
-                <button id="register-submit">가입하기</button>
-            </div>
+    <div id="register-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span id="close-register" style="cursor:pointer; float:right;">&times;</span>
+            <h2>회원가입</h2>
+            <input type="text" id="register-id" placeholder="아이디" /><br />
+            <input type="password" id="register-pw" placeholder="비밀번호" /><br />
+            <button id="register-submit">가입하기</button>
         </div>
+    </div>
 </div>
 
 <script src="js/script.js"></script>
-    <script src="js/auth.js"></script>
-
+<script src="js/auth.js"></script>
 </body>
 </html>
