@@ -6,7 +6,13 @@ const postForm = document.getElementById("post-form");
 const writePostBtn = document.getElementById("write-post-btn");
 
 // 로그인 상태 기본값 (auth.js에서 설정되었을 수도 있음)
-let isLoggedIn = window.isLoggedIn || false;
+function checkLogin() {
+    return !!localStorage.getItem("user");
+}
+
+// 초기 렌더링 시도
+let isLoggedIn = checkLogin();
+
 
 // 게시글 렌더링 함수
 async function renderPosts(category) {
@@ -56,7 +62,8 @@ categoryList.addEventListener("click", e => {
 
 // 게시글 쓰기 버튼 처리
 writePostBtn.addEventListener("click", () => {
-    if (!isLoggedIn) {
+    const user = localStorage.getItem("user");
+    if (!checkLogin()) {
         alert("로그인 후에 작성할 수 있습니다.");
         return;
     }
@@ -67,7 +74,9 @@ writePostBtn.addEventListener("click", () => {
 
 // 게시글 작성 처리
 document.getElementById("post-submit").addEventListener("click", async () => {
-    if (!isLoggedIn) {
+    const user = localStorage.getItem("user"); // 로그인 유저 가져오기
+
+    if (!checkLogin()) {
         alert("로그인 후에 작성할 수 있습니다.");
         return;
     }
@@ -84,12 +93,17 @@ document.getElementById("post-submit").addEventListener("click", async () => {
         const response = await fetch("/api/posts", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ title, content }),
+            body: JSON.stringify({
+                author: user,
+                title: title,
+                content: content
+            }),
         });
 
         if (!response.ok) throw new Error("게시글 작성 실패");
 
         alert("게시글이 작성되었습니다.");
+        document.getElementById("post-form").style.display = "none";
         document.getElementById("post-title").value = "";
         document.getElementById("post-content-input").value = "";
 
