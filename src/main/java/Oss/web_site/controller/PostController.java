@@ -31,7 +31,7 @@ public class PostController {
         if (post.getAuthor() == null || post.getAuthor().isEmpty()) {
             return ResponseEntity.badRequest().body("작성자가 필요합니다.");
         }
-        Post saved = postService.createPost(post.getTitle(), post.getContent(), post.getAuthor());
+        Post saved = postService.createPost(post.getTitle(), post.getContent(), post.getAuthor(), post.getCategory());
         return ResponseEntity.ok(saved);
     }
 
@@ -52,3 +52,4 @@ public class PostController {
         return ResponseEntity.notFound().build();
     }
 }
+

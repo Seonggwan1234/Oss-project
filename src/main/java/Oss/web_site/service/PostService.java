@@ -5,6 +5,7 @@ import Oss.web_site.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,11 +24,12 @@ public class PostService {
         return postRepository.findByCategory(category);
     }
 
-    public Post createPost(String title, String content, String author) {
+    public Post createPost(String title, String content, String author, String category) {
         Post post = new Post();
         post.setTitle(title);
         post.setContent(content);
         post.setAuthor(author);
+        post.setCategory(category);
         return postRepository.save(post);
     }
 
