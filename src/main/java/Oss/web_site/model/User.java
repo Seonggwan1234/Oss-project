@@ -9,11 +9,14 @@ import lombok.*;
 @AllArgsConstructor
 @Table(name = "users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id;  // Long 타입으로 변경 가능
 
+    @Column(unique = true)
     private String username;
 
     private String password;
+
 }
