@@ -122,14 +122,14 @@ window.addEventListener("DOMContentLoaded", () => {
                 response = await fetch(`/api/posts/${editingPostId}`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ author: user, title, content }),
+                    body: JSON.stringify({ author: user, title, content, category: currentCategory}),
                 });
             } else {
                 // 신규 작성 요청
                 response = await fetch("/api/posts", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ author: user, title, content }),
+                    body: JSON.stringify({ author: user, title, content, category: currentCategory}),
                 });
             }
 
@@ -148,6 +148,7 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    let currentCategory = "all";
     // 카테고리 클릭 이벤트
     categoryList.addEventListener("click", e => {
         if (e.target.tagName !== "LI") return;
@@ -156,6 +157,7 @@ window.addEventListener("DOMContentLoaded", () => {
         e.target.classList.add("active");
 
         const category = e.target.getAttribute("data-category");
+        currentCategory = category;
         renderPosts(category);
     });
 
