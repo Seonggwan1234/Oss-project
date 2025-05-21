@@ -141,7 +141,7 @@ window.addEventListener("DOMContentLoaded", () => {
             document.getElementById("post-content-input").value = "";
             editingPostId = null;
 
-            renderPosts("all");
+            renderPosts(currentCategory);
         } catch (error) {
             alert(editingPostId ? "게시글 수정 중 오류가 발생했습니다." : "게시글 작성 중 오류가 발생했습니다.");
             console.error(error);
