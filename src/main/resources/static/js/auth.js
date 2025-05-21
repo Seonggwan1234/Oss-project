@@ -1,20 +1,25 @@
+// --- 로그인, 회원가입, 로그아웃 및 인증 UI 관리 ---
+
 const loginBtn = document.getElementById("login-btn");
 const registerBtn = document.getElementById("register");
 const registerModal = document.getElementById("register-modal");
 const closeRegister = document.getElementById("close-register");
 const registerSubmit = document.getElementById("register-submit");
 
-// 회원가입 모달 열기
+const loginBox = document.getElementById("login-box");
+const userBox = document.getElementById("user-box");
+const userDisplay = document.getElementById("user-id-display");
+const writePostBtn = document.getElementById("write-post-btn");
+
+// 회원가입 모달 열기/닫기
 registerBtn.addEventListener("click", () => {
     registerModal.style.display = "flex";
 });
 
-// 회원가입 모달 닫기
 closeRegister.addEventListener("click", () => {
     registerModal.style.display = "none";
 });
 
-// 모달 바깥 클릭 시 닫기
 window.addEventListener("click", (e) => {
     if (e.target === registerModal) {
         registerModal.style.display = "none";
@@ -43,13 +48,16 @@ loginBtn.addEventListener("click", async () => {
         if (response.status === 200) {
             alert(`로그인 성공! 환영합니다, ${data.username}님.`);
 
-            localStorage.setItem("user", data.username); // 사용자 정보 저장
-            updateAuthUI();  // 로그인 UI 반영
-
-            document.getElementById("post-form").style.display = "block";
+            localStorage.setItem("user", data.username);
+            updateAuthUI();
 
             document.getElementById("login-id").value = "";
             document.getElementById("login-pw").value = "";
+
+            // 게시글 목록 다시 불러오기 (script.js의 함수 호출)
+            if (typeof renderPosts === "function") {
+                renderPosts("all");
+            }
 
         } else {
             alert(data.error || "로그인 실패");
@@ -94,42 +102,44 @@ registerSubmit.addEventListener("click", async () => {
 
         document.getElementById("register-id").value = "";
         document.getElementById("register-pw").value = "";
-
     }
 });
+
+// 로그인 상태 확인 함수
+function isLoggedIn() {
+    return !!localStorage.getItem("user");
+}
 
 // 로그인/로그아웃 UI 갱신 함수
 function updateAuthUI() {
     const user = localStorage.getItem("user");
 
-    const loginBox = document.getElementById("login-box");
-    const userBox = document.getElementById("user-box");
-    const userDisplay = document.getElementById("user-id-display");
-
     if (user) {
         loginBox.style.display = "none";
         userBox.style.display = "block";
         userDisplay.textContent = user;
-        document.getElementById("post-form").style.display = "block";
+        writePostBtn.style.display = "inline-block";
     } else {
         loginBox.style.display = "flex";
         userBox.style.display = "none";
         userDisplay.textContent = "";
-        document.getElementById("post-form").style.display = "none";
+        writePostBtn.style.display = "none";
     }
 }
 
-// 로그아웃
+// 로그아웃 처리
 document.getElementById("logout-btn").addEventListener("click", () => {
     localStorage.removeItem("user");
     updateAuthUI();
     alert("로그아웃 되었습니다.");
+
+    // 게시글 목록 초기화 (script.js 함수 호출)
+    if (typeof clearPostList === "function") {
+        clearPostList();
+    }
 });
 
-// 페이지 로딩 시 로그인 상태 반영
+// 페이지 로드 시 UI 초기화
 window.addEventListener("DOMContentLoaded", () => {
     updateAuthUI();
-    if (typeof renderPosts === "function") {
-        renderPosts("all");
-    }
 });

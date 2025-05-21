@@ -108,3 +108,31 @@ header {
     border-radius: 8px;
     width: 300px;
 }
+
+/* 게시글 본문 영역 내 버튼 스타일 */
+#post-content {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    position: relative;
+    background: #fff;
+    border-radius: 6px;
+}
+
+/* 수정, 삭제 버튼 스타일 */
+#post-content button {
+    background-color: #0078d7;
+    border: none;
+    color: white;
+    padding: 6px 14px;
+    margin-right: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+#post-content button:hover {
+    background-color: #005ea2;
+}
+Css
